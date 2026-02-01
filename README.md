@@ -106,5 +106,5 @@ dotnet run --project src/ArrayCamera.UI/ArrayCamera.UI.csproj
 
 ## 作者
 
-光电探测传感系统研究组
+Ausan + Gemini + Github copilot
 © 2026
