@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>ArrayCamera.Driver</RootNamespace>
+    <AssemblyName>ArrayCamera.Driver</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Authors>Array Test System Team</Authors>
+    <Company>光电探测传感系统研究组</Company>
+    <Product>Array Test System Host Software</Product>
+    <Version>1.0.0</Version>
+    <Description>UDP通信与数据重组驱动库</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>ArrayCamera.UI</RootNamespace>
+    <AssemblyName>ArrayCameraHost</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Authors>Array Test System Team</Authors>
+    <Company>光电探测传感系统研究组</Company>
+    <Product>Array Test System Host Software</Product>
+    <Version>1.0.0</Version>
+    <Description>512x512忆阻器阵列测试系统控制软件</Description>
+    <ApplicationIcon />
+    <StartupObject>ArrayCamera.UI.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ArrayCamera.Core\ArrayCamera.Core.csproj" />
+    <ProjectReference Include="..\ArrayCamera.Driver\ArrayCamera.Driver.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
+  </ItemGroup>
+
+</Project>

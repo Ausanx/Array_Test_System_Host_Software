@@ -1,0 +1,48 @@
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.userprefs
+*.pidb
+*.swp
+*~
+*.DS_Store
+[Tt]humbs.db
+*.log
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio cache/options
+.vs/
+.vscode/
+
+# NuGet Packages
+*.nupkg
+**/packages/*
+!**/packages/build/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Installer files
+*.msi
+*.msm
+*.cab
+*.exe
+!Setup.exe
+
+# JetBrains Rider
+.idea/
+*.sln.iml

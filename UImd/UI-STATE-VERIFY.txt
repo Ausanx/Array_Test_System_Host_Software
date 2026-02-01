@@ -1,0 +1,140 @@
+═══════════════════════════════════════════════════════════
+     ArrayCamera UI State Machine - Verification Checklist
+═══════════════════════════════════════════════════════════
+
+CHECK 1: Initial State Check
+───────────────────────────────────────────────────────────
+  ☐ Status shows 'System Idle (IDLE)' in gray color
+  ☐ 'Start Acquisition' button is DISABLED
+  ☐ 'Stop Acquisition' button is DISABLED
+  ☐ 'Hardware Parameters' panel is DISABLED
+  ☐ Demo mode toggle is OFF
+
+
+CHECK 2: Enable Demo Mode
+───────────────────────────────────────────────────────────
+  ☐ Toggle demo mode ON
+  ☐ Status changes to 'Simulation Ready (SIMULATION READY)' in green
+  ☐ 'Start Acquisition' button becomes ENABLED
+  ☐ 'Hardware Parameters' panel becomes ENABLED
+  ☐ Demo rendering starts automatically
+
+
+CHECK 3: Start Acquisition
+───────────────────────────────────────────────────────────
+  ☐ Click 'Start Acquisition' button
+  ☐ Status changes to 'Acquiring (Preview Mode)' in orange
+  ☐ 'Start Acquisition' button becomes DISABLED
+  ☐ 'Stop Acquisition' button becomes ENABLED
+  ☐ 'Hardware Parameters' panel becomes DISABLED
+  ☐ Image display updates continuously
+
+
+CHECK 4: Stop Acquisition
+───────────────────────────────────────────────────────────
+  ☐ Click 'Stop Acquisition' button
+  ☐ Status reverts to 'Simulation Ready (SIMULATION READY)' in green
+  ☐ 'Start Acquisition' button becomes ENABLED
+  ☐ 'Stop Acquisition' button becomes DISABLED
+  ☐ 'Hardware Parameters' panel becomes ENABLED
+
+
+CHECK 5: Disable Demo Mode
+───────────────────────────────────────────────────────────
+  ☐ Toggle demo mode OFF
+  ☐ Status changes to 'System Idle (IDLE)' in gray
+  ☐ 'Start Acquisition' button becomes DISABLED
+  ☐ 'Hardware Parameters' panel becomes DISABLED
+
+
+CHECK 6: Error Handling
+───────────────────────────────────────────────────────────
+  ☐ With demo OFF and hardware NOT connected, click 'Start Acquisition'
+  ☐ Warning dialog appears: 'Please complete one of the following...'
+  ☐ Acquisition does NOT start
+
+
+CHECK 7: Debug Commands
+───────────────────────────────────────────────────────────
+  ☐ Verify Debug Command dropdown only has: Ping/Reset/Config
+  ☐ NO Start/Stop options should appear
+  ☐ Select Ping, enter parameters, click 'Send Command'
+  ☐ Log displays 'Ping command sent'
+
+
+CHECK 8: Parameter Protection
+───────────────────────────────────────────────────────────
+  ☐ Enable demo mode and start acquisition
+  ☐ Verify 'Drain Voltage', 'TIA Range', 'Setup Time' fields are disabled
+  ☐ Stop acquisition - fields should become enabled again
+
+
+═══════════════════════════════════════════════════════════
+                    Quick Start Guide
+═══════════════════════════════════════════════════════════
+
+1. Build the program:
+   > dotnet build -c Release
+
+2. Run the program:
+   > .\bin\Release\net6.0-windows\ArrayCamera.exe
+
+3. Verify each check above by interacting with the UI
+
+4. Review logs window for detailed diagnostics
+
+
+═══════════════════════════════════════════════════════════
+                      Key Metrics
+═══════════════════════════════════════════════════════════
+
+  * Initial _isDemoMode must be FALSE (not TRUE)
+  * All button states managed by UpdateUIState()
+  * Stop response time should be < 100ms
+  * Runtime parameter panel disabled during acquisition
+
+
+═══════════════════════════════════════════════════════════
+                Log Search Keywords
+═══════════════════════════════════════════════════════════
+
+  * '[UI State]' - State change logs
+  * '[Demo Mode]' - Demo mode related events
+  * '[Hardware]' - Hardware connection events
+  * '[Debug Command]' - Manual debug command sends
+
+
+═══════════════════════════════════════════════════════════
+              Implementation Summary
+═══════════════════════════════════════════════════════════
+
+Files Modified:
+  ✓ MainWindow.xaml (574 lines)
+    - Fixed demo mode toggle IsChecked="False"
+    - Removed duplicate CmbScanMode definition
+    - Added GrpParameters x:Name for runtime control
+    - Removed Start/Stop from debug commands
+
+  ✓ MainWindow.xaml.cs (686 lines)
+    - Private state variables: _isDemoMode, _isConnected, _isScanning
+    - New UpdateUIState() method (centralized state management)
+    - Rewritten BtnStart_Click with forced checks
+    - Rewritten BtnStop_Click with immediate _isScanning=false
+    - Fixed TgDemo event name (Unchecked handler)
+    - Fixed GenerateDemoFrame loop check
+    - Fixed BtnSendCmd_Click CmdId mapping
+
+Compilation Status: ✓ SUCCESS (0 errors, 0 warnings)
+
+State Machine:
+  IDLE (Gray)              <- Initial state
+    ├─ Enable Demo -> SIMULATION_READY (Green)
+    │   ├─ Click Start -> ACQUIRING (Orange)
+    │   │   └─ Click Stop -> SIMULATION_READY (Green)
+    │   └─ Disable Demo -> IDLE (Gray)
+    └─ Connect Hardware -> HARDWARE_ONLINE (Blue)
+        ├─ Click Start -> ACQUIRING (Orange)
+        │   └─ Click Stop -> HARDWARE_ONLINE (Blue)
+        └─ Disconnect -> IDLE (Gray)
+
+═══════════════════════════════════════════════════════════
